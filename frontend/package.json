@@ -1,0 +1,26 @@
+{
+  "name": "ma-pool-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Meta Assets Chain POCC pool dapp",
+  "scripts": {
+    "dev": "next dev -p 3000",
+    "build": "next build",
+    "start": "next start -p 3000",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@tanstack/react-query": "^5.51.0",
+    "next": "14.2.32",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "viem": "^2.21.0",
+    "wagmi": "^2.12.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.5.0",
+    "@types/react": "18.3.5",
+    "@types/react-dom": "18.3.0",
+    "typescript": "^5.5.4"
+  }
+}
