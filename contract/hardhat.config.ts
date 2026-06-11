@@ -16,6 +16,9 @@ const config: HardhatUserConfig = {
   networks: {
     hardhat: {
       chainId: 31337,
+      // mock 链放宽块 gas 上限，容纳 100 枚/笔 的批量质押；
+      // 真链批量大小需按其区块 gas 上限调整（见 docs/E2E.md）
+      blockGasLimit: 60_000_000,
     },
     // 本地 mock 链（npx hardhat node）
     local: {

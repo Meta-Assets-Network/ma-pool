@@ -27,7 +27,7 @@ async function fund(addr: string, eth: string) {
 async function mintMany(mst: any, to: string, quantity: number) {
   let left = quantity;
   while (left > 0) {
-    const n = Math.min(left, 100);
+    const n = Math.min(left, 80);
     await (await mst.mint(to, n)).wait();
     left -= n;
   }
@@ -36,8 +36,8 @@ async function mintMany(mst: any, to: string, quantity: number) {
 async function stakeN(pool: any, mst: any, miner: any, n: number) {
   const ids: bigint[] = [];
   for (let i = 0; i < n; i++) ids.push(await mst.tokenOfOwnerByIndex(miner.address, i));
-  for (let i = 0; i < ids.length; i += 100) {
-    await (await pool.connect(miner).stake(ids.slice(i, i + 100))).wait();
+  for (let i = 0; i < ids.length; i += 40) {
+    await (await pool.connect(miner).stake(ids.slice(i, i + 40))).wait();
   }
   return ids;
 }

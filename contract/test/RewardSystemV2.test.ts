@@ -10,7 +10,7 @@ const SCALE = 10000n;
 async function mintMany(mst: any, foundation: HardhatEthersSigner, to: string, quantity: number) {
   let left = quantity;
   while (left > 0) {
-    const n = Math.min(left, 100);
+    const n = Math.min(left, 80);
     await mst.connect(foundation).mint(to, n);
     left -= n;
   }
@@ -26,8 +26,8 @@ async function tokensOf(mst: any, owner: string, n: number): Promise<bigint[]> {
 async function stakeN(pool: any, mst: any, miner: HardhatEthersSigner, n: number) {
   // 单笔 ≤100，贴合区块 gas 上限（与铸造、前端同口径）
   const ids = await tokensOf(mst, miner.address, n);
-  for (let i = 0; i < ids.length; i += 100) {
-    await pool.connect(miner).stake(ids.slice(i, i + 100));
+  for (let i = 0; i < ids.length; i += 40) {
+    await pool.connect(miner).stake(ids.slice(i, i + 40));
   }
   return ids;
 }

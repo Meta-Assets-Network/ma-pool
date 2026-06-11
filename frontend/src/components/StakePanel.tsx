@@ -6,7 +6,7 @@ import { useMyMiner, useMyStakedTokens } from "@/lib/hooks";
 import { poolContract, nftContract } from "@/lib/contracts";
 import { useOnTargetChain } from "./NetworkGuard";
 
-const CHUNK = 100; // 单笔上限，贴合区块 gas
+const CHUNK = 40; // 单笔上限：EIP-7825 交易 gas 上限 2^24 下的安全批量
 
 type Phase = "idle" | "approving" | "staking" | "unstaking";
 

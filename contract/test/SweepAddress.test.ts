@@ -8,7 +8,7 @@ const V1_SWEEP = "0x281F73d00751aEb5f64e76c8B9137d3AA8499762";
 async function mintMany(mst: any, foundation: HardhatEthersSigner, to: string, quantity: number) {
   let left = quantity;
   while (left > 0) {
-    const n = Math.min(left, 100);
+    const n = Math.min(left, 80);
     await mst.connect(foundation).mint(to, n);
     left -= n;
   }
@@ -17,8 +17,8 @@ async function mintMany(mst: any, foundation: HardhatEthersSigner, to: string, q
 async function stakeAll(pool: any, mst: any, miner: HardhatEthersSigner, n: number) {
   const ids: bigint[] = [];
   for (let i = 0; i < n; i++) ids.push(await mst.tokenOfOwnerByIndex(miner.address, i));
-  for (let i = 0; i < ids.length; i += 100) {
-    await pool.connect(miner).stake(ids.slice(i, i + 100));
+  for (let i = 0; i < ids.length; i += 40) {
+    await pool.connect(miner).stake(ids.slice(i, i + 40));
   }
 }
 
