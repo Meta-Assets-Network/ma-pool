@@ -1,0 +1,20 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: mapool-postgres
+    environment:
+      POSTGRES_DB: mapool
+      POSTGRES_USER: mapool
+      POSTGRES_PASSWORD: mapool
+    ports:
+      - "5433:5432"
+    volumes:
+      - mapool-pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U mapool -d mapool"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+volumes:
+  mapool-pgdata:

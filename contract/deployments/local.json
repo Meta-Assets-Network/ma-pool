@@ -1,0 +1,30 @@
+{
+  "chainId": 31337,
+  "rpc": "http://127.0.0.1:8545",
+  "pool": "0xc7eA423BB1226a0b0d82cC0daf05FefCC0249f06",
+  "nft": "0x492D71684B40C7F748A76B1560E06457Eacd3acA",
+  "fallbackAddress": "0x281F73d00751aEb5f64e76c8B9137d3AA8499762",
+  "owner": {
+    "address": "0x7020975A4558e15812d49c0E1DEDc2F04b47c9aa",
+    "privateKey": "0x52ab9065561f68d577c38981363610fdc248930233825578d25306ee3d3345d6"
+  },
+  "miners": [
+    {
+      "address": "0x287A4436ad4dEa53a8611a98Ce7e5D235766FEA8",
+      "privateKey": "0xa781620f8c992087ff81910989c8db7acafec0ebcc8a703f5dab7e5726a79738",
+      "minted": 120
+    },
+    {
+      "address": "0x5C157092c1B7E12C903d7CE1168c1798EF445d61",
+      "privateKey": "0x9c80b305cca2d1a3b628b831bac1d0fe0e4bca30539aef45348230e3bbfee0fd",
+      "minted": 650
+    },
+    {
+      "address": "0xEDDc124AA335362Ee49c23CeB132Da2Dc378fe83",
+      "privateKey": "0x06e80c6fd1105a8ecef5e65b4d7c87a9c31d361f4421119a7ff72716a3d1e10a",
+      "minted": 300
+    }
+  ],
+  "startBlock": 21,
+  "endBlock": 74
+}
