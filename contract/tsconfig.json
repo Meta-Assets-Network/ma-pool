@@ -8,6 +8,7 @@
     "strict": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
+    "rootDir": ".",
     "outDir": "dist"
   },
   "include": ["./scripts", "./test", "./hardhat.config.ts"],
