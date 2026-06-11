@@ -61,7 +61,13 @@ describe("UUPS upgrade path: RewardSystem(V1) -> RewardSystemV2", () => {
   it("non-owner cannot upgrade", async () => {
     const { proxy, stranger } = await loadFixture(deployV1);
     const V2bad = await ethers.getContractFactory("RewardSystemV2", stranger);
-    await expect(upgrades.upgradeProxy(proxy, V2bad)).to.be.rejected;
+    let failed = false;
+    try {
+      await upgrades.upgradeProxy(proxy, V2bad);
+    } catch {
+      failed = true; // OwnableUnauthorizedAccount via _authorizeUpgrade
+    }
+    expect(failed).to.equal(true);
   });
 
   it("full life-cycle after upgrade: stake -> activate -> dynamic sweep", async () => {
