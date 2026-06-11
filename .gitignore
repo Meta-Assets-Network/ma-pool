@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.next/
+.env
+.env.local
+*.local.json
+cache/
+artifacts/
+typechain-types/
+.idea/
+.DS_Store
