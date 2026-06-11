@@ -1,0 +1,25 @@
+{
+  "name": "ma-pool-contracts",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Meta Assets Chain POCC reward pool contracts (MST NFT + RewardSystemV2 UUPS upgrade)",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "node": "hardhat node",
+    "deploy:local": "hardhat run scripts/deploy-local.ts --network local",
+    "upgrade:chain": "hardhat run scripts/upgrade-chain.ts --network machain",
+    "export-abi": "hardhat run scripts/export-abi.ts",
+    "sample": "hardhat run scripts/sample-sweep.ts --network local"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@openzeppelin/hardhat-upgrades": "^3.2.0",
+    "dotenv": "^16.4.5",
+    "hardhat": "^2.22.10"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "5.0.2",
+    "@openzeppelin/contracts-upgradeable": "5.0.2"
+  }
+}
