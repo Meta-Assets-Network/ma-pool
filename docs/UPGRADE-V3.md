@@ -151,7 +151,8 @@ cast call --gas-limit 100000 $PROXY "sweepAddress()(address)"
 cast call $PROXY "FEN_CAPACITY()(uint256)"                # 65536
 ```
 
-devnet 完整回归(必做,这是 V2 翻车的场景):
+以下回归已在 `contract/test/RewardSystemV3.test.ts` 落地(`npm test` 全量 49 项),
+真链升级前在 devnet 复跑同等场景即可:
 
 1. 灌 **50+ 个激活矿工**(超过 V2 的 ~22 悬崖),`--gas-limit 100000` 调
    `sweepAddress()`,连续多个高度均须成功返回激活矿工而非 fallback;
