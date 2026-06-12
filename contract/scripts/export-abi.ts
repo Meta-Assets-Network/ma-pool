@@ -9,7 +9,8 @@ async function main() {
     path.join(root, "backend", "src", "abi"),
     path.join(root, "frontend", "src", "lib", "abi"),
   ];
-  for (const name of ["RewardSystemV2", "MSTToken"]) {
+  // V2 供现有 backend/frontend 消费（selector 与 V4 兼容）；V4 额外导出含延迟生效新增视图。
+  for (const name of ["RewardSystemV2", "RewardSystemV4", "MSTToken"]) {
     const art = await artifacts.readArtifact(name);
     for (const dir of targets) {
       fs.mkdirSync(dir, { recursive: true });
