@@ -274,7 +274,7 @@ describe("RewardSystemV3 (Fenwick sweep)", () => {
         const proxy = await upgrades.deployProxy(V1, [foundation.address], { kind: "uups" });
         const MST = await ethers.getContractFactory("MSTToken", foundation);
         const mst = await MST.deploy(foundation.address);
-        let pool = proxy;
+        let pool: any = proxy;
         for (const v of versions) {
           const F = await ethers.getContractFactory(v, foundation);
           pool = await upgrades.upgradeProxy(
