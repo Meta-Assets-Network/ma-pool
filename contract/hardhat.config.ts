@@ -31,6 +31,13 @@ const config: HardhatUserConfig = {
       chainId: 20260131,
       accounts: process.env.OWNER_KEY ? [process.env.OWNER_KEY] : [],
     },
+    // Meta Assets 测试网（chainId 20260130，节点本机 RPC）。
+    // 用法：MATEST_KEY=<owner私钥> hardhat run scripts/upgrade-testnet-v4.ts --network matest
+    matest: {
+      url: process.env.MATEST_RPC || "http://127.0.0.1:8545",
+      chainId: 20260130,
+      accounts: process.env.MATEST_KEY ? [process.env.MATEST_KEY] : [],
+    },
   },
   mocha: {
     timeout: 120000,
