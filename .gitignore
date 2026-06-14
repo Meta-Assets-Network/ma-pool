@@ -9,3 +9,4 @@ artifacts/
 typechain-types/
 .idea/
 .DS_Store
+*.tsbuildinfo
