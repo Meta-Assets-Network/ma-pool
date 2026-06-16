@@ -118,16 +118,11 @@ a {
   }
 }
 
-/* 双栏布局下，让右侧事件流卡片填满整栏高度、内部滚动，与左栏等高 */
+/* 事件流保持原高度（.feed max-height:420，不再拉伸）；改由左栏向事件流高度对齐：
+   事件流按内容自然高度，左栏在双栏布局下 stretch 到同一行高（item 1 修正） */
 @media (min-width: 921px) {
   .grid-main > .card {
-    display: flex;
-    flex-direction: column;
-  }
-  .grid-main > .card .feed {
-    flex: 1 1 0;
-    min-height: 0;
-    max-height: none;
+    align-self: start;
   }
 }
 
