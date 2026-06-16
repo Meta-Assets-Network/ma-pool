@@ -29,6 +29,10 @@ body {
   color: var(--text);
   font-family: var(--f-display);
   min-height: 100vh;
+  /* 防止任何元素（如带 min-width 的表格）把整页撑宽产生横向溢出；
+     表格的横向滚动由 .table-wrap 内部独立承担 */
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 a {
@@ -101,10 +105,30 @@ a {
 .grid {
   display: grid;
   gap: 16px;
+  min-width: 0;
+}
+
+/* grid 子项默认 min-width:auto（不小于内容宽度）；显式置 0 让其可收缩到视口，
+   使表格的 .table-wrap 横向滚动真正生效，避免 min-width:560 的表格把整页撑溢出 */
+.grid > *,
+.grid-main > * {
+  min-width: 0;
 }
 
 .grid-stats {
   grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+
+/* 显式断点，避免窄屏下 auto-fit 反馈环导致多列溢出 */
+@media (max-width: 900px) {
+  .grid-stats {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 560px) {
+  .grid-stats {
+    grid-template-columns: 1fr;
+  }
 }
 
 .grid-main {
@@ -413,5 +437,22 @@ tr:last-child td {
   .section-title {
     flex-wrap: wrap;
     gap: 4px;
+  }
+  /* 顶栏纵向堆叠：品牌在上、连接区占满整宽，避免连接按钮被挤出右边裁切 */
+  .topbar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .topbar-right {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  /* 事件流每行允许换行、长 mono 文本可断行，避免右侧 txHash 被裁 */
+  .feed-item {
+    column-gap: 8px;
+  }
+  .feed-item > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
 }
