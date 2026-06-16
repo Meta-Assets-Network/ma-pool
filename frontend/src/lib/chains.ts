@@ -6,13 +6,11 @@ export const maChain = defineChain({
   name: "Meta Assets Chain",
   nativeCurrency: { name: "MA", symbol: "MA", decimals: 18 },
   rpcUrls: {
-    default: {
-      // 主 RPC + 备用 seed 节点
-      http: ["https://rpc.ma-chain.xyz", "https://madataseed.xyz", "https://maclive.info"],
-    },
+    // 与 documents/machain-test/CHAIN_RPC_INFO.md 一致（钱包自动添加网络用此参数）
+    default: { http: ["https://rpc.ma-chain.xyz", "https://rpc.macscan.io"] },
   },
   blockExplorers: {
-    default: { name: "MacScan", url: "https://macscan.io" },
+    default: { name: "Meta Assets Chain Explorer", url: "https://ma-chain.xyz" },
   },
 });
 
@@ -22,10 +20,14 @@ export const maTestnet = defineChain({
   name: "Meta Assets Chain Testnet",
   nativeCurrency: { name: "MA", symbol: "MA", decimals: 18 },
   rpcUrls: {
-    default: { http: [process.env.NEXT_PUBLIC_TESTNET_RPC ?? "https://rpc.machaintest.com"] },
+    // 与 documents/machain-test/CHAIN_RPC_INFO.md 一致
+    default: {
+      http: [process.env.NEXT_PUBLIC_TESTNET_RPC ?? "https://rpc.machaintest.com"],
+      webSocket: ["wss://machaintest.com/ws"],
+    },
   },
   blockExplorers: {
-    default: { name: "MacChain Testnet Explorer", url: "https://machaintest.com" },
+    default: { name: "Meta Assets Chain Testnet Explorer", url: "https://machaintest.com" },
   },
   testnet: true,
 });
