@@ -47,6 +47,14 @@ export const chainMode = (process.env.NEXT_PUBLIC_CHAIN_MODE ?? "machain") as
 export const targetChain =
   chainMode === "local" ? localChain : chainMode === "testnet" ? maTestnet : maChain;
 
+/**
+ * 被识别为「MA 网络」的链 id —— 连到这些链不弹"添加/切换"提示。
+ * 主网与测试网均视为合法（item 2）；本地模式仅识别本地链。
+ * 写操作仍只在 targetChain 放行（合约地址按当前部署单配，见 useOnTargetChain）。
+ */
+export const recognizedChainIds: readonly number[] =
+  chainMode === "local" ? [localChain.id] : [maChain.id, maTestnet.id];
+
 export const POOL_ADDRESS = (process.env.NEXT_PUBLIC_POOL_ADDRESS ?? "0x0000000000000000000000000000000000000000") as `0x${string}`;
 export const NFT_ADDRESS = (process.env.NEXT_PUBLIC_NFT_ADDRESS ?? "0x0000000000000000000000000000000000000000") as `0x${string}`;
 export const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://127.0.0.1:8787";

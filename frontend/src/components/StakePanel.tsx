@@ -19,11 +19,17 @@ export function StakePanel() {
   const [qty, setQty] = useState("100");
   const [phase, setPhase] = useState<Phase>("idle");
   const [msg, setMsg] = useState<string | null>(null);
+  const [progress, setProgress] = useState<{ done: number; total: number } | null>(null);
 
   if (!m.address) return null;
 
   const busy = phase !== "idle";
-  const n = Math.max(0, Math.floor(Number(qty) || 0));
+  const n = qty === "" ? 0 : Math.floor(Number(qty));
+  const walletBalance = Number(m.walletBalance ?? 0n);
+  const stakedCount = Number(m.staked ?? 0n);
+
+  // 只允许正整数：剔除非数字字符（含小数点、负号、e）
+  const onQtyChange = (raw: string) => setQty(raw.replace(/[^\d]/g, "").replace(/^0+(?=\d)/, ""));
 
   async function waitTx(hash: `0x${string}`) {
     if (client) await client.waitForTransactionReceipt({ hash });
@@ -48,9 +54,8 @@ export function StakePanel() {
   async function doStake() {
     try {
       setMsg(null);
-      const balance = Number(m.walletBalance ?? 0n);
-      if (n === 0 || n > balance) {
-        setMsg(`数量需在 1 ~ ${balance}`);
+      if (n === 0 || n > walletBalance) {
+        setMsg(`数量需在 1 ~ ${walletBalance}`);
         return;
       }
       if (!m.approvedAll) {
@@ -64,19 +69,23 @@ export function StakePanel() {
       }
       setPhase("staking");
       const ids = await pickWalletTokens(n);
-      for (let i = 0; i < ids.length; i += CHUNK) {
+      const total = Math.ceil(ids.length / CHUNK);
+      setProgress({ done: 0, total });
+      for (let i = 0, b = 0; i < ids.length; i += CHUNK, b++) {
         const h = await writeContractAsync({
           ...poolContract,
           functionName: "stake",
           args: [ids.slice(i, i + CHUNK)],
         });
         await waitTx(h);
+        setProgress({ done: b + 1, total });
       }
-      setMsg(`✓ 已质押 ${n} 枚`);
+      setMsg(`✓ 已质押 ${n} 枚（${total} 笔）`);
     } catch (e) {
       setMsg(`✗ ${(e as Error).message.slice(0, 120)}`);
     } finally {
       setPhase("idle");
+      setProgress(null);
       m.refetch();
     }
   }
@@ -85,14 +94,16 @@ export function StakePanel() {
     try {
       setMsg(null);
       const mine = (stakedTokens as bigint[] | undefined) ?? [];
-      const staked = Number(m.staked ?? 0n);
-      if (n === 0 || n > staked) {
-        setMsg(`数量需在 1 ~ ${staked}`);
+      if (n === 0 || n > stakedCount) {
+        setMsg(`数量需在 1 ~ ${stakedCount}`);
         return;
       }
       setPhase("unstaking");
+      const total = Math.ceil(n / CHUNK);
+      setProgress({ done: 0, total });
       // 第一页最多 CHUNK 枚；更多时分多轮（每轮取回后列表前移）
       let left = n;
+      let b = 0;
       while (left > 0) {
         const batch = mine.slice(0, Math.min(left, CHUNK));
         if (batch.length === 0) break;
@@ -103,6 +114,7 @@ export function StakePanel() {
         });
         await waitTx(h);
         left -= batch.length;
+        setProgress({ done: ++b, total });
         if (left > 0) {
           const refreshed = (await client!.readContract({
             ...poolContract,
@@ -112,11 +124,12 @@ export function StakePanel() {
           mine.splice(0, mine.length, ...refreshed);
         }
       }
-      setMsg(`✓ 已取回 ${n} 枚`);
+      setMsg(`✓ 已取回 ${n} 枚（${total} 笔）`);
     } catch (e) {
       setMsg(`✗ ${(e as Error).message.slice(0, 120)}`);
     } finally {
       setPhase("idle");
+      setProgress(null);
       m.refetch();
     }
   }
@@ -130,10 +143,11 @@ export function StakePanel() {
       <div className="row">
         <input
           className="input"
-          type="number"
-          min={1}
+          type="text"
+          inputMode="numeric"
+          pattern="[0-9]*"
           value={qty}
-          onChange={(e) => setQty(e.target.value)}
+          onChange={(e) => onQtyChange(e.target.value)}
           disabled={busy}
         />
         <button className="btn" disabled={!onChain || busy} onClick={doStake}>
@@ -143,6 +157,27 @@ export function StakePanel() {
           {phase === "unstaking" ? "取回中…" : "Unstake"}
         </button>
       </div>
+
+      {/* 输入即时校验提示（item 5） */}
+      <p className="stake-hint" style={{ fontSize: 12 }}>
+        {qty === "" || n === 0 ? (
+          <span className="bad">请输入正整数</span>
+        ) : (
+          <>
+            <span className={n > walletBalance ? "bad" : "muted"}>可质押 {n}/{walletBalance}</span>
+            <span className="muted"> · </span>
+            <span className={n > stakedCount ? "bad" : "muted"}>可取回 {n}/{stakedCount}</span>
+          </>
+        )}
+      </p>
+
+      {/* 批次进度（item 4） */}
+      {progress && progress.total > 0 && (
+        <p className="mono" style={{ fontSize: 13 }}>
+          {phase === "unstaking" ? "取回中" : "质押中"}… 共 {progress.total} 笔，已执行 {progress.done} 笔
+        </p>
+      )}
+
       {!m.approvedAll && <p className="muted" style={{ fontSize: 12 }}>首次质押会先发起 setApprovalForAll 授权。</p>}
       {msg && <p className="mono" style={{ fontSize: 13 }}>{msg}</p>}
     </div>

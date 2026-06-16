@@ -16,6 +16,7 @@ export function MinersTable() {
       {isError ? (
         <p className="muted">后端索引服务不可用（启动 backend 后自动恢复）。</p>
       ) : (
+        <div className="table-wrap">
         <table>
           <thead>
             <tr>
@@ -47,6 +48,7 @@ export function MinersTable() {
             )}
           </tbody>
         </table>
+        </div>
       )}
     </div>
   );

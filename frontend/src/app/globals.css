@@ -109,12 +109,25 @@ a {
 
 .grid-main {
   grid-template-columns: 1.2fr 1fr;
-  align-items: start;
+  align-items: stretch; /* 两栏等高：右侧事件流与左侧「我的矿池+质押」对齐（item 1） */
 }
 
 @media (max-width: 920px) {
   .grid-main {
     grid-template-columns: 1fr;
+  }
+}
+
+/* 双栏布局下，让右侧事件流卡片填满整栏高度、内部滚动，与左栏等高 */
+@media (min-width: 921px) {
+  .grid-main > .card {
+    display: flex;
+    flex-direction: column;
+  }
+  .grid-main > .card .feed {
+    flex: 1 1 0;
+    min-height: 0;
+    max-height: none;
   }
 }
 
@@ -281,8 +294,16 @@ a {
 }
 
 /* ---------- table ---------- */
+/* 横向滚动容器：移动端窄屏下表格不挤压，可向右滑动查看（item 6） */
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 table {
   width: 100%;
+  min-width: 560px; /* 低于此宽度触发横向滚动而非压字 */
   border-collapse: collapse;
   font-size: 13px;
 }
@@ -376,4 +397,26 @@ tr:last-child td {
 
 .spacer {
   flex: 1;
+}
+
+.stake-hint {
+  margin: 8px 0 0;
+  font-family: var(--f-mono);
+}
+
+/* ---------- 移动端适配（item 6） ---------- */
+@media (max-width: 600px) {
+  .container {
+    padding: 0 14px 60px;
+  }
+  .card {
+    padding: 16px;
+  }
+  .stat-value {
+    font-size: 22px;
+  }
+  .section-title {
+    flex-wrap: wrap;
+    gap: 4px;
+  }
 }
