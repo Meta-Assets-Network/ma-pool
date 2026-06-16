@@ -1,6 +1,6 @@
 "use client";
 
-import { useAccount, useConnect, useDisconnect, useChainId, useSwitchChain } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useSwitchChain } from "wagmi";
 import { targetChain } from "@/lib/chains";
 import { shortAddr } from "@/lib/format";
 
@@ -12,8 +12,8 @@ import { shortAddr } from "@/lib/format";
  *  - 已连接且在配置网络：显示地址 + 断开。
  */
 export function ConnectBar() {
-  const { address, isConnected } = useAccount();
-  const chainId = useChainId();
+  // chainId 取自 useAccount（钱包实际所在链），不用 useChainId（仅反映配置状态）
+  const { address, isConnected, chainId } = useAccount();
   const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
   const { switchChain, isPending: switching, error: switchError } = useSwitchChain();

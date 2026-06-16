@@ -1,6 +1,6 @@
 "use client";
 
-import { useAccount, useChainId, useSwitchChain } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
 import { targetChain, recognizedChainIds } from "@/lib/chains";
 
 /**
@@ -9,12 +9,12 @@ import { targetChain, recognizedChainIds } from "@/lib/chains";
  * （带 RPC/符号/浏览器参数），MetaMask 弹窗确认即可"通车"。
  */
 export function NetworkGuard() {
-  const { isConnected } = useAccount();
-  const chainId = useChainId();
+  // chainId 取钱包实际所在链（useAccount），而非配置状态（useChainId）
+  const { isConnected, chainId } = useAccount();
   const { switchChain, isPending, error } = useSwitchChain();
 
   // 已连接且在 MA 主网/测试网上 → 无需提示
-  if (!isConnected || recognizedChainIds.includes(chainId)) return null;
+  if (!isConnected || (chainId !== undefined && recognizedChainIds.includes(chainId))) return null;
 
   return (
     <div className="banner">
@@ -34,7 +34,6 @@ export function NetworkGuard() {
 
 /** 写操作是否可用：已连接且在 targetChain（合约地址按当前部署单配，故写操作只认目标链） */
 export function useOnTargetChain(): boolean {
-  const { isConnected } = useAccount();
-  const chainId = useChainId();
+  const { isConnected, chainId } = useAccount();
   return isConnected && chainId === targetChain.id;
 }
