@@ -6,11 +6,11 @@ export const maChain = defineChain({
   name: "Meta Assets Chain",
   nativeCurrency: { name: "MA", symbol: "MA", decimals: 18 },
   rpcUrls: {
-    // 与 documents/machain-test/CHAIN_RPC_INFO.md 一致（钱包自动添加网络用此参数）
-    default: { http: ["https://rpc.ma-chain.xyz", "https://rpc.macscan.io"] },
+    // 主网 RPC / 浏览器（钱包自动添加网络用此参数）
+    default: { http: ["https://rpc.macscan.io"] },
   },
   blockExplorers: {
-    default: { name: "Meta Assets Chain Explorer", url: "https://ma-chain.xyz" },
+    default: { name: "MacScan", url: "https://macscan.io" },
   },
 });
 
