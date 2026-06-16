@@ -29,17 +29,18 @@ const CONFIG = {
   NFT_ADDRESS: "0xF6Ea76885f46493640045822A8EeB96028BDABfE",
 
   // 每个接收地址各转多少枚（总转出 = 此值 × RECIPIENTS 长度）
-  TRANSFER_COUNT: 500,
+  TRANSFER_COUNT: 600,
 
   // 起始 tokenId：指定后从该 id 起【连续】选取（#START, #START+1, …），不枚举持有、更快；
   // 留 null 则自动枚举当前持有、从最小 tokenId 起选取。
-  START_TOKEN_ID: 901,
+  START_TOKEN_ID: 2401,
 
   // 接收地址（按地址顺序各分配 TRANSFER_COUNT 枚：[0] 拿最小的一批，[1] 拿次之…）
   RECIPIENTS: [
-    "0xAEaD5645d7BDfcA4d6aa9D9D9eD232b2E5455832",
-    "0xf15b6d94c04ee1284320a374073a8b61c3c85c5c",
-    "0x8C1f4bAfe32BDbcFC026bcE1Ffd208052F65cC2e"
+    // "0xAEaD5645d7BDfcA4d6aa9D9D9eD232b2E5455832",
+    // "0xf15b6d94c04ee1284320a374073a8b61c3c85c5c",
+    // "0x8C1f4bAfe32BDbcFC026bcE1Ffd208052F65cC2e",
+    "0x9c37f50AF9A9C653798982A6B75E3d52DbA39785",
   ],
 
   // true = 只打印计划、不发交易
