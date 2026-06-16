@@ -10,7 +10,8 @@
     "deploy:local": "hardhat run scripts/deploy-local.ts --network local",
     "upgrade:chain": "hardhat run scripts/upgrade-chain.ts --network machain",
     "export-abi": "hardhat run scripts/export-abi.ts",
-    "sample": "hardhat run scripts/sample-sweep.ts --network local"
+    "sample": "hardhat run scripts/sample-sweep.ts --network local",
+    "transfer-nft": "hardhat run scripts/batch-transfer-nft.ts"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^5.0.0",
