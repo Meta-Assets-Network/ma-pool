@@ -11,7 +11,7 @@ export default function Home() {
     <main className="container">
       <header className="topbar">
         <div className="brand">
-          <div className="brand-mark" />
+          <img className="brand-mark" src="/gem.svg" alt="MA Pool" width={38} height={38} />
           <div>
             <h1>MA POOL</h1>
             <small>Meta Assets Chain · POCC</small>
