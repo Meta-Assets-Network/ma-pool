@@ -24,7 +24,7 @@ SSH_KEY="${SSH_KEY:-$HOME/.ssh/machain.pem}"
 SERVER="${SERVER:-ubuntu@18.207.199.194}"
 REMOTE_DIR="${REMOTE_DIR:-/home/ubuntu/ma-pool/backend}"
 PM2_APP="${PM2_APP:-ma-pool-backend}"
-SITE_URL="${SITE_URL:-https://pool.metaassetschain.org}"
+SITE_URL="${SITE_URL:-https://test.macpool.net}"
 RUN_INSTALL="${RUN_INSTALL:-1}"
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"

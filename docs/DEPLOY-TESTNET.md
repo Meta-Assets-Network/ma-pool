@@ -10,9 +10,10 @@
 
 | 项 | 地址 |
 |---|---|
-| 矿池 dApp（前端） | **https://pool.metaassetschain.org** |
-| 扫链 API（后端） | **https://pool.metaassetschain.org/api** （如 `/api/stats`、`/api/miners`、`/api/status`、`/api/events`） |
-| 证书 | Let's Encrypt（有效期 2026-06-14 → 2026-09-12，certbot 自动续期），80 → 443 强制跳转 |
+| 矿池 dApp（前端） | **https://test.macpool.net** （经 Cloudflare 代理） |
+| 扫链 API（后端） | **https://test.macpool.net/api** （如 `/api/stats`、`/api/miners`、`/api/status`、`/api/events`） |
+| 证书 | 源站 Let's Encrypt（test.macpool.net，到期 2026-09-15，certbot 自动续期）；Cloudflare 边缘负责 HTTP→HTTPS（Full 模式回源 443） |
+| 旧域名（保留） | https://pool.metaassetschain.org 仍指向同一服务器、可用；待确认后可下线其 nginx 站点与 DNS |
 | 链 RPC（对外 https） | https://rpc.machaintest.com |
 | 区块浏览器 | https://machaintest.com |
 
@@ -58,7 +59,7 @@
 | 后端扫链 + API（TS） | pm2 `ma-pool-backend`（ubuntu） | 127.0.0.1:8787 | 代码 `/home/ubuntu/ma-pool/backend` |
 | Postgres（后端 KV 存储） | docker `mapool-postgres` | 127.0.0.1:5433 | 卷 `mapool-pgdata`，库/账号/密码均 `mapool` |
 | 合约工程（升级/运维脚本） | — | — | `/root/ma-pool/contract` |
-| Nginx 站点 | `pool.metaassetschain.org` | 80/443 | `/etc/nginx/sites-available/pool.metaassetschain.org`；`/`→3100，`/api/`→8787 |
+| Nginx 站点 | `test.macpool.net` | 80/443 | `/etc/nginx/sites-available/test.macpool.net`；`/`→3100，`/api/`→8787 |
 
 - 前端环境：`/home/ubuntu/ma-pool/frontend/.env.local`（`NEXT_PUBLIC_CHAIN_MODE=testnet`、合约地址、`NEXT_PUBLIC_API_URL=` 走同域 `/api`）。
 - 后端环境：`/home/ubuntu/ma-pool/backend/.env.local`（本地 RPC `127.0.0.1:8545`、合约地址、`DATABASE_URL`、`START_BLOCK`）。
@@ -68,8 +69,8 @@
 
 **查状态（只读，无需私钥）**
 ```bash
-curl -s https://pool.metaassetschain.org/api/stats     # 总算力/矿工数/扫链高度
-curl -s https://pool.metaassetschain.org/api/miners    # 6 矿池明细
+curl -s https://test.macpool.net/api/stats     # 总算力/矿工数/扫链高度
+curl -s https://test.macpool.net/api/miners    # 6 矿池明细
 ssh root@18.207.199.194 'sudo -u ubuntu pm2 ls'        # 前后端进程
 ```
 
